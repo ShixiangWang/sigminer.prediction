@@ -1,21 +1,26 @@
 Package: sigminer.prediction
-Title: Train and Predict Cancer Subtype with Keras Model based on Mutational Signatures
-Version: 0.0.0.9000
+Title: Train and Predict Cancer Subtype with Keras Model based
+    on Mutational Signatures
+Version: 0.1.0
 Authors@R: 
     person(given = "Shixiang",
            family = "Wang",
            role = c("aut", "cre"),
            email = "w_shixiang@163.com",
            comment = c(ORCID = "YOUR-ORCID-ID"))
-Description: Mutational signatures represent mutational processes occured in cancer evolution,
-thus are stable and genetic resources for subtyping. This tool provides functions for training
-neutral network models to predict the subtype a sample belongs to based on 'keras' and 'sigminer' packages. 
+Description: Mutational signatures represent mutational
+    processes occured in cancer evolution, thus are stable and genetic
+    resources for subtyping. This tool provides functions for training
+    neutral network models to predict the subtype a sample belongs to
+    based on 'keras' and 'sigminer' packages.
 License: Apache License (>= 2.0)
 Depends: 
+    keras,
     R (>= 3.6)
 Imports: 
-    keras,
-    sigminer
+    caret,
+    sigminer,
+    dplyr
 Encoding: UTF-8
 LazyData: true
 Roxygen: list(markdown = TRUE)
