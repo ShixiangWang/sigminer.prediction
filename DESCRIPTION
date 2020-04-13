@@ -19,7 +19,7 @@ Depends:
     R (>= 3.6)
 Imports: 
     caret,
-    sigminer,
+    sigminer (>= 1.0),
     dplyr
 Encoding: UTF-8
 LazyData: true
