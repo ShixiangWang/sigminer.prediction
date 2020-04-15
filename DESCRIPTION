@@ -1,13 +1,13 @@
 Package: sigminer.prediction
 Title: Train and Predict Cancer Subtype with Keras Model based
     on Mutational Signatures
-Version: 0.1.0
+Version: 0.2.0
 Authors@R: 
     person(given = "Shixiang",
            family = "Wang",
            role = c("aut", "cre"),
            email = "w_shixiang@163.com",
-           comment = c(ORCID = "YOUR-ORCID-ID"))
+           comment = c(ORCID = "0000-0001-9855-7357"))
 Description: Mutational signatures represent mutational
     processes occured in cancer evolution, thus are stable and genetic
     resources for subtyping. This tool provides functions for training

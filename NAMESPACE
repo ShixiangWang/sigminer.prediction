@@ -2,6 +2,8 @@
 
 export(batch_modeling_and_fitting)
 export(copy_model)
+export(list_trained_models)
+export(load_trained_model)
 export(modeling_and_fitting)
 export(prepare_data)
 export(tidy)

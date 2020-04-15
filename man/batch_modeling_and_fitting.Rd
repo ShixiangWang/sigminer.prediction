@@ -2,7 +2,7 @@
 % Please edit documentation in R/batch_modeling_and_fitting.R
 \name{batch_modeling_and_fitting}
 \alias{batch_modeling_and_fitting}
-\title{Batch Run Keras Models}
+\title{Construct A Batch of Keras Models}
 \usage{
 batch_modeling_and_fitting(data_list, param_combination, ...)
 }
@@ -20,7 +20,7 @@ for run Keras model once. Column names should indicate parameter names and shoul
 a \code{tibble}.
 }
 \description{
-Batch Run Keras Models
+Construct A Batch of Keras Models
 }
 \examples{
 load(system.file("extdata", "wang2020-input.RData",

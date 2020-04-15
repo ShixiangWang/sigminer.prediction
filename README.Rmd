@@ -88,6 +88,68 @@ model %>% predict_classes(dat_list$x_train[1, , drop = FALSE])
 model %>% predict_proba(dat_list$x_train[1, , drop = FALSE])
 ```
 
+If you input wrong data shape, it will return error and remind you the correct shape.
+
+```{r, error=TRUE}
+# Use a 9 numbers input
+model %>% predict_classes(dat_list$x_train[1, 1:9, drop = FALSE])
+```
+
+
+For constructing a batch of models, see `?batch_modeling_and_fitting`.
+
+## Trained models for prostate cancer
+
+In our prostate cancer study, we trained 3 models for different datasets for different clinical applification. Each model is selected as the best model by hand from parameter combination matrix (576 models) according to comprehensive consideration of accuracy in test dataset, average accuracy in all datasets and number of parameters used:
+
+```{r}
+mat <- expand.grid(
+  c(10, 20, 50, 100),
+  c(0, 0.1, 0.2, 0.3, 0.4, 0.5),
+  c(10, 20, 50, 100),
+  c(0, 0.1, 0.2, 0.3, 0.4, 0.5)
+)
+
+nrow(mat)
+head(mat)
+```
+The models have same 5-layer structure: **input layer + hidden layer + 2 dropout layers + output layer**. The dropout layers are used to control overfitting. The hidden layer is used to extract hidden pattern in data. This is the core model structure used in this package. If users want to use custom model structure, you have to define it by yourself, the source code of `modeling_and_fitting()` can be reference.
+
+```{r, echo=FALSE, fig.align="center", fig.cap="Structure of 3 selected trained models for different datasets", out.width='50%'}
+knitr::include_graphics("man/figures/pc_models.png")
+```
+
+The performance of the three selected model has shown below.
+
+> We randomly selected 80% of total samples for training and 20% of total samples for testing the performance. We trained 50 epochs with batch size 16. At each epoch, 20% of trained samples were randomly selected as the validation dataset. 
+
+```{r, echo=FALSE, fig.align="center", fig.cap="Performance of 3 selected Keras models at the last (generated from 20200409)", out.width='50%'}
+knitr::include_graphics("man/figures/pc_model_pf.png")
+```
+
+### Usage of trained model
+
+List information for available models.
+
+```{r}
+list_trained_models()
+```
+
+Get the corresponding model by passing a subset data to `load_trained_model()`:
+
+```{r}
+md_all <- list_trained_models() %>% 
+  head(1) %>% 
+  load_trained_model()
+md_all
+```
+
+> When the input have multiple rows, it will return a `list` of models.
+
+```{r}
+md_all %>% predict_classes(dat_list$x_train[1, , drop = FALSE])
+```
+
 
 ## Citation
 

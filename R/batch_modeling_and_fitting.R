@@ -1,4 +1,4 @@
-#' Batch Run Keras Models
+#' Construct A Batch of Keras Models
 #'
 #' @inheritParams modeling_and_fitting
 #' @param param_combination A parameter `matrix`/`data.frame` with each row representing the parameters
