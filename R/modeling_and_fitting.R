@@ -47,6 +47,7 @@ modeling_and_fitting <- function(data_list,
                                  epochs = 30,
                                  batch_size = 16,
                                  validation_split = 0.2,
+                                 validation_data = NULL,
                                  test_split = NULL,
                                  first_layer_activation = "relu",
                                  third_layer_activation = "relu",
@@ -80,6 +81,7 @@ modeling_and_fitting <- function(data_list,
 
   n_vars <- ncol(x_train)
   n_class <- ncol(y_train)
+  if (is.null(n_class)) n_class = 1
 
   if (is.null(test_split)) {
     test_split <- round(nrow(x_test) / sum(nrow(x_train), nrow(x_test)), 4)
@@ -112,7 +114,8 @@ modeling_and_fitting <- function(data_list,
     x_train, y_train,
     epochs = epochs,
     batch_size = batch_size,
-    validation_split = validation_split
+    validation_split = validation_split,
+    validation_data = validation_data
   )
 
   ## Performance
@@ -123,7 +126,7 @@ modeling_and_fitting <- function(data_list,
   acc_val_last <- acc_val[length(acc_val)]
 
   pf <- model %>% evaluate(x_test, y_test)
-  acc_test <- pf$accuracy
+  acc_test <- pf[[metrics]]
 
   ## Save model and results
   save_model_hdf5(model, filepath = model_file)

@@ -13,6 +13,7 @@ modeling_and_fitting(
   epochs = 30,
   batch_size = 16,
   validation_split = 0.2,
+  validation_data = NULL,
   test_split = NULL,
   first_layer_activation = "relu",
   third_layer_activation = "relu",
@@ -48,6 +49,11 @@ model metrics on this data at the end of each epoch. The validation data
 is selected from the last samples in the \code{x} and \code{y} data provided,
 before shuffling.}
 
+\item{validation_data}{Data on which to evaluate the loss and any model
+metrics at the end of each epoch. The model will not be trained on this
+data. This could be a list (x_val, y_val) or a list (x_val, y_val,
+val_sample_weights). \code{validation_data} will override \code{validation_split}.}
+
 \item{test_split}{Float between 0 and 1. Fraction of the all data to be used as test data.
 If not set, it will be auto-calculated from input data. This value is used for calculating
 total accuracy.}
@@ -58,20 +64,42 @@ total accuracy.}
 
 \item{fifth_layer_activation}{activation function for the fifth layer, default is "softmax".}
 
-\item{loss}{Name of objective function or objective function. If the model
-has multiple outputs, you can use a different loss on each output by
-passing a dictionary or a list of objectives. The loss value that will be
-minimized by the model will then be the sum of all individual losses.}
+\item{loss}{String (name of objective function), objective function or a
+\code{keras$losses$Loss} subclass instance. An objective function is any
+callable with the signature \code{loss = fn(y_true, y_pred)}, where y_true =
+ground truth values with shape = \verb{[batch_size, d0, .. dN]}, except sparse
+loss functions such as sparse categorical crossentropy where shape =
+\verb{[batch_size, d0, .. dN-1]}. y_pred = predicted values with shape =
+\verb{[batch_size, d0, .. dN]}. It returns a weighted loss float tensor. If a
+custom \code{Loss} instance is used and reduction is set to \code{NULL}, return value
+has the shape \verb{[batch_size, d0, .. dN-1]} i.e. per-sample or per-timestep
+loss values; otherwise, it is a scalar. If the model has multiple outputs,
+you can use a different loss on each output by passing a dictionary or a
+list of losses. The loss value that will be minimized by the model will
+then be the sum of all individual losses, unless \code{loss_weights} is
+specified.}
 
-\item{optimizer}{Name of optimizer or optimizer instance.}
+\item{optimizer}{String (name of optimizer) or optimizer instance. For most
+models, this defaults to \code{"rmsprop"}}
 
 \item{metrics}{List of metrics to be evaluated by the model during training
-and testing. Typically you will use \code{metrics='accuracy'}. To specify
-different metrics for different outputs of a multi-output model, you could
-also pass a named list such as \code{metrics=list(output_a = 'accuracy')}.}
+and testing. Each of this can be a string (name of a built-in function),
+function or a \code{keras$metrics$Metric} class instance. See
+\code{?tf$keras$metrics}. Typically you will use \code{metrics=list('accuracy')}. A
+function is any callable with the signature \code{result = fn(y_true, y_pred)}.
+To specify different metrics for different outputs of a multi-output model,
+you could also pass a dictionary, such as \code{metrics=list(output_a = 'accuracy', output_b = c('accuracy', 'mse'))}. You can also pass a list to
+specify a metric or a list of metrics for each output, such as
+\code{metrics=list(list('accuracy'), list('accuracy', 'mse'))} or
+\code{metrics=list('accuracy', c('accuracy', 'mse'))}. When you pass the strings
+\code{'accuracy'} or \code{'acc'}, this is converted to one of
+\code{tf.keras.metrics.BinaryAccuracy}, \code{tf.keras.metrics.CategoricalAccuracy},
+\code{tf.keras.metrics.SparseCategoricalAccuracy} based on the loss function
+used and the model output shape. A similar conversion is done for the
+strings \code{'crossentropy'} and \code{'ce'}.}
 
 \item{model_file}{file path to save the model file in \code{hdf5} format. Default use a temp file path,
-the path will be stored in returned data. You can load the model with \code{\link[keras:load_model_hdf5]{keras::load_model_hdf5()}}.}
+the path will be stored in returned data. You can load the model with \code{\link[keras:save_model_hdf5]{keras::load_model_hdf5()}}.}
 
 \item{test_mode}{Default is \code{FALSE}, if \code{TRUE}, print the input parameters from the user and exit.}
 }
